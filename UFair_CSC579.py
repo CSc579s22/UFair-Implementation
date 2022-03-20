@@ -13,13 +13,16 @@ def stage1(N,a,b,c,r_max,BW): #r_max is an integer
             eqs.append(Eq(((a * (r[i] ** b) + c) / (a * (r_max ** b) + c)) - ((a * (r[i + 1] ** b) + c) / (a * (r_max ** b) + c)), 0))
     # print(eqs)
     sol = solve(eqs)
-    print(sol)
+    #print(sol)
     r1 = BW / N
-    print(r1)
+    #print(r1)
     opt_r = []
     for i in range(N):
         opt_r.append(r1)
-    return opt_r
+    return sol, opt_r
+
+#r= stage1(5,-3,-0.5,1,30,50)
+#print(r)
 
 def stage3(a,b,c,CL,t,ti,r_prim):
     w=1/3
@@ -58,12 +61,17 @@ def stage3(a,b,c,CL,t,ti,r_prim):
     S_combined=max(S)
     return S_combined
 
+# resolution is fixed
 def U_Prim(N,a,b,c,r,r_max):
     U_max = a * (r_max) ** b + c
     for i in range(N):
         U = (a * (r[i])**b) + c
         U_prim= U/U_max
+
     return U_prim
+
+#vq_utiliy= U_Prim(4,-3.035,-0.5061,1.022,[12,14,18,22],30)
+#print(vq_utiliy)
 
 def Q(a,b,c,r):
     Q=[]
@@ -71,18 +79,28 @@ def Q(a,b,c,r):
         Q.append(a*(i**b)+c)
     return Q
 
+#q=Q(-3.035,-0.5061,1.022,[12,14,18,22])
+#print(q)
+
 def VQ_fairness(a,b,c,r):
     Q1= Q(a,b,c,r)
     s_vq= np.std(Q1)
     RSD= (100*s_vq)/np.mean(Q1)
     return RSD
 
-def CT_fairness(a,b,c,r):
-    utility= U_Prim(a,b,c,r)
+#f= VQ_fairness(-3.035,-0.5061,1.022,[12,14,18,22])
+#print(f)
+
+def CT_fairness(N,a,b,c,r,r_max):
+    utility= U_Prim(N,a,b,c,r,r_max)
     CT= np.sum(r)/ np.sum(utility)
     return CT
 
-def SI_fairness(a,b,c,r,t,ti,r_prim): # the value of t and ti and r_prim are provided by running of the SABR code
+#c=CT_fairness(4,-3.035,-0.5061,1.022,[12,14,18,22],30)
+#print(c)
+
+
+def SI_fairness(a,b,c,r,t,ti,r_prim):
     Q1= Q(a,b,c,r)
     Q_prim= a*(r_prim^b)+c
     del_Q=[]
