@@ -102,7 +102,7 @@ def CT_fairness(N,a,b,c,r,r_max):
 
 def SI_fairness(a,b,c,r,t,ti,r_prim):
     Q1= Q(a,b,c,r)
-    Q_prim= a*(r_prim^b)+c
+    Q_prim= a*(r_prim**b)+c
     del_Q=[]
     S1 = []
     S2=[]
