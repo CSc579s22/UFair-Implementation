@@ -58,7 +58,7 @@ def stage3(a,b,c,CL,t,ti,r_prim):
     for n in len(CL):
         v=VQ_F2[n]+CT_F2[n]+SI_F2[n]
         S.append(v)
-    S_combined=max(S)
+    S_combined=min(S)
     return S_combined
 
 # resolution is fixed
